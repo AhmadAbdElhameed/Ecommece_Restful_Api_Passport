@@ -13,23 +13,8 @@ class BuyerController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBuyerRequest $request)
-    {
-        //
+        $buyers = Buyer::has('transactions')->get();
+        return response()->json(['data' => $buyers],200);
     }
 
     /**
@@ -37,30 +22,12 @@ class BuyerController extends Controller
      */
     public function show(Buyer $buyer)
     {
-        //
-    }
+        // Check if the buyer has any transactions
+        if ($buyer->transactions()->exists()) {
+            return response()->json(['data' => $buyer], 200);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Buyer $buyer)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBuyerRequest $request, Buyer $buyer)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Buyer $buyer)
-    {
-        //
+        // Return a response if the buyer has no transactions
+        return response()->json(['error' => 'Buyer does not have any transactions', 'code' => 404], 404);
     }
 }
