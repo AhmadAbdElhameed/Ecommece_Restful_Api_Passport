@@ -4,32 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\traits\ApiResponse;
 use App\Models\Category;
 
 class CategoryController extends ApiController
 {
+
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+
+        return $this->showAll($categories);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $category = Category::create([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return $this->showOne($category,201);
     }
 
     /**
@@ -37,15 +40,7 @@ class CategoryController extends ApiController
      */
     public function show(Category $category)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
+        return $this->showOne($category,200);
     }
 
     /**
@@ -53,7 +48,13 @@ class CategoryController extends ApiController
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+//        dd($request->all());
+        $category->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return $this->showOne($category);
     }
 
     /**
@@ -61,6 +62,8 @@ class CategoryController extends ApiController
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return $this->showOne($category);
     }
 }
