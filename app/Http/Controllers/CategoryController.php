@@ -48,11 +48,9 @@ class CategoryController extends ApiController
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-//        dd($request->all());
-        $category->update([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        $data = $request->only(['name', 'description']);
+
+        $category->update($data);
 
         return $this->showOne($category);
     }
