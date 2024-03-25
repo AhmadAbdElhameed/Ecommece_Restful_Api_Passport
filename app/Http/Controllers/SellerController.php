@@ -6,12 +6,12 @@ use App\Http\Requests\StoreSellerRequest;
 use App\Http\Requests\UpdateSellerRequest;
 use App\Models\Seller;
 
-class SellerController extends Controller
+class SellerController extends ApiController
 {
     public function index()
     {
         $sellers = Seller::has('products')->get();
-        return response()->json(['data' => $sellers],200);
+        return $this->showAll($sellers);
     }
 
     /**
@@ -21,10 +21,10 @@ class SellerController extends Controller
     {
         // Check if the buyer has any transactions
         if ($seller->products()->exists()) {
-            return response()->json(['data' => $seller], 200);
+            return $this->showOne($seller);
         }
 
         // Return a response if the buyer has no transactions
-        return response()->json(['error' => 'Seller does not have any products', 'code' => 404], 404);
+        return $this->errorResponse('Seller does not have any products', 404);
     }
 }

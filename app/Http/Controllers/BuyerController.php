@@ -6,7 +6,7 @@ use App\Http\Requests\StoreBuyerRequest;
 use App\Http\Requests\UpdateBuyerRequest;
 use App\Models\Buyer;
 
-class BuyerController extends Controller
+class BuyerController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class BuyerController extends Controller
     public function index()
     {
         $buyers = Buyer::has('transactions')->get();
-        return response()->json(['data' => $buyers],200);
+        return $this->showAll($buyers);
     }
 
     /**
@@ -24,10 +24,10 @@ class BuyerController extends Controller
     {
         // Check if the buyer has any transactions
         if ($buyer->transactions()->exists()) {
-            return response()->json(['data' => $buyer], 200);
+            return $this->showOne($buyer);
         }
 
         // Return a response if the buyer has no transactions
-        return response()->json(['error' => 'Buyer does not have any transactions', 'code' => 404], 404);
+        return $this->errorResponse('Buyer does not have any transactions', 404);
     }
 }
