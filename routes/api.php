@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BuyerController;
+use App\Http\Controllers\BuyerProductController;
+use App\Http\Controllers\BuyerTransactionController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellerController;
@@ -28,6 +30,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::resource('buyers', BuyerController::class)->only('index','show');
+Route::resource('buyers.transactions', BuyerTransactionController::class)->only('index');
+Route::resource('buyers.products', BuyerProductController::class)->only('index');
 Route::resource('sellers', SellerController::class)->only('index','show');
 Route::resource('products', ProductController::class)->only('index','show');
 Route::resource('transactions', TransactionController::class)->only('index','show');
