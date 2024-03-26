@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\SignatureMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 
 class Kernel extends HttpKernel
 {
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'signature' => SignatureMiddleware::class,
+        'client.credentials' => CheckClientCredentials::class,
     ];
 }

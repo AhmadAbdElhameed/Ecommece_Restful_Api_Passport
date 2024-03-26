@@ -42,19 +42,22 @@ Route::resource('buyers.products', BuyerProductController::class)->only('index')
 Route::resource('buyers.sellers', BuyerSellerController::class)->only('index');
 Route::resource('buyers.categories', BuyerCategoryController::class)->only('index');
 Route::resource('sellers', SellerController::class)->only('index','show');
-Route::resource('products', ProductController::class)->only('index','show');
 Route::resource('transactions', TransactionController::class)->only('index','show');
 Route::resource('transactions.categories', TransactionCategoryController::class)->only('index');
 Route::resource('transactions.sellers', TransactionSellerController::class)->only('index');
-Route::resource('categories', CategoryController::class)->except('create','edit');
 Route::resource('users', UserController::class)->except('create','edit');
-Route::resource('category.products', CategoryProductController::class)->only('index');
 Route::resource('category.sellers', CategorySellerController::class)->only('index');
-Route::resource('category.transactions', CategoryTransactionController::class)->only('index');
 Route::resource('category.buyers', CategoryBuyerController::class)->only('index');
-
+Route::resource('categories', CategoryController::class)
+    ->except('create','edit');
 
 Route::post('oauth/token',[AccessTokenController::class,'issueToken']);
 
 
-
+Route::middleware('client.credentials')->group(function () {
+    Route::resource('categories', CategoryController::class)->only(['index','show']);
+    Route::resource('category.products', CategoryProductController::class)->only('index');
+    Route::resource('products', ProductController::class)->only('index','show');
+    Route::resource('category.transactions', CategoryTransactionController::class)->only('index');
+    Route::resource('users', UserController::class)->only('store');
+});
