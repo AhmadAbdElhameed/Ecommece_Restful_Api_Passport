@@ -18,6 +18,7 @@ use App\Http\Controllers\TransactionSellerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +52,9 @@ Route::resource('category.products', CategoryProductController::class)->only('in
 Route::resource('category.sellers', CategorySellerController::class)->only('index');
 Route::resource('category.transactions', CategoryTransactionController::class)->only('index');
 Route::resource('category.buyers', CategoryBuyerController::class)->only('index');
+
+
+Route::post('oauth/token',[AccessTokenController::class,'issueToken']);
+
+
+
