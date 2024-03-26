@@ -11,7 +11,7 @@ class Product extends Model
     use HasFactory,SoftDeletes;
     const AVAILABLE_PRODUCT = 'available';
     const UNAVAILABLE_PRODUCT = 'unavailable';
-
+    protected $hidden = ['pivot'];
     protected $fillable = ['name','description','quantity','image','status','seller_id'];
     protected $dates = ['deleted_at'];
 
