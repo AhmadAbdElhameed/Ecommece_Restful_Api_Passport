@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BuyerCategoryController;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\BuyerProductController;
@@ -61,3 +63,5 @@ Route::middleware('client.credentials')->group(function () {
     Route::resource('category.transactions', CategoryTransactionController::class)->only('index');
     Route::resource('users', UserController::class)->only('store');
 });
+Route::post('/register', [RegisteredUserController::class, 'store']);
+Route::post('/login', [AuthenticatedSessionController::class, 'login']);
